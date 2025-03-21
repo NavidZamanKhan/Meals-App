@@ -34,7 +34,7 @@ class MealsScreen extends StatelessWidget {
       );
     } else {
       return Scaffold(
-        appBar: AppBar(title: const Text("Meals")),
+        appBar: AppBar(title: Text(title)),
         body: ListView.builder(
           itemCount: meals.length,
           itemBuilder: (context, index) {

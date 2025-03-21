@@ -6,10 +6,19 @@ import 'package:meals_app/screens/categories.dart';
 final theme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.dark,
-    seedColor: Colors.green,
+    brightness: Brightness.light,
+    seedColor: Color.fromARGB(255, 29, 164, 140),
   ),
   textTheme: GoogleFonts.latoTextTheme(),
+
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color.fromARGB(255, 29, 164, 140),
+    titleTextStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
 );
 
 void main() {
