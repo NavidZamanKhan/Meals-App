@@ -23,17 +23,39 @@ class MealDetailsScreen extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 16),
-            Text(
-              "Let's make: ${meal.title}",
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w900,
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryFixedDim,
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Theme.of(
+                      context,
+                    ).colorScheme.primaryFixedDim.withOpacity(1),
+                    Theme.of(
+                      context,
+                    ).colorScheme.primaryFixedDim.withOpacity(0),
+                  ],
+                ),
               ),
-              textAlign: TextAlign.center,
+              child: Column(
+                children: [
+                  SizedBox(height: 16),
+                  Text(
+                    "Let's make: ${meal.title}",
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 16),
+                  CookingSteps(meal: meal),
+                ],
+              ),
             ),
-            SizedBox(height: 16),
-            CookingSteps(meal: meal),
           ],
         ),
       ),

@@ -9,10 +9,9 @@ class CookingSteps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Column(
           children: [
             Text(
               "Ingredients:",
@@ -21,7 +20,7 @@ class CookingSteps extends StatelessWidget {
               ).textTheme.titleLarge!.copyWith(color: Colors.black),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 for (var ingredient in meal.ingredients)
                   Padding(
@@ -36,6 +35,33 @@ class CookingSteps extends StatelessWidget {
           ],
         ),
         SizedBox(height: 16),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Steps:",
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (var step in meal.steps)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      step,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ],
     );
   }
