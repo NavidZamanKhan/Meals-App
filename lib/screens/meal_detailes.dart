@@ -12,10 +12,10 @@ class MealDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(meal.title)),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            FadeInImage(
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: FadeInImage(
               fadeInDuration: const Duration(milliseconds: 400),
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(meal.imageUrl),
@@ -23,7 +23,10 @@ class MealDetailsScreen extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.cover,
             ),
-            Container(
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primaryFixedDim,
@@ -56,8 +59,8 @@ class MealDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

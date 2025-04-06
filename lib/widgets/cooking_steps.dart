@@ -12,26 +12,24 @@ class CookingSteps extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Ingredients:",
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge!.copyWith(color: Colors.black),
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                for (var ingredient in meal.ingredients)
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      ingredient,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ),
-              ],
-            ),
+            for (var ingredient in meal.ingredients)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  ingredient,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
           ],
         ),
         SizedBox(height: 16),
