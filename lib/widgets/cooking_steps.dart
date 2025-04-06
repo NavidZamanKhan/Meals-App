@@ -28,10 +28,19 @@ class CookingSteps extends StatelessWidget {
               for (var ingredient in meal.ingredients)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    "${meal.ingredients.indexOf(ingredient) + 1} - "
-                    "$ingredient",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  child: Row(
+                    children: [
+                      Text(
+                        "${meal.ingredients.indexOf(ingredient) + 1} - ",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      Text(
+                        ingredient,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
                   ),
                 ),
             ],
