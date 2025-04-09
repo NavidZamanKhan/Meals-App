@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
-import 'package:meals_app/screens/meal_detailes.dart';
 import 'package:meals_app/widgets/meal_item_trait.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal});
+  const MealItem({super.key, required this.meal, required this.onSelectMeal});
 
   final Meal meal;
+  final void Function(Meal meal) onSelectMeal;
 
   String get complexityText {
     return meal.complexity.name[0].toUpperCase() +
@@ -27,23 +27,12 @@ class MealItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       elevation: 4,
       child: InkWell(
-        // This is the onTap handler for the InkWell widget.
-        // I have to implement the handler in the next step.
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) {
-                return MealDetailsScreen(meal: meal);
-              },
-            ),
-          );
-        },
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        onTap: () => onSelectMeal(meal),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
         child: Stack(
           children: [
             FadeInImage(
-              fadeInDuration: Duration(milliseconds: 400),
+              fadeInDuration: const Duration(milliseconds: 400),
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(meal.imageUrl),
               fit: BoxFit.cover,
