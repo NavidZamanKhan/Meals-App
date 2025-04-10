@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/meals.dart';
 
@@ -11,20 +12,60 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   int _selectedPageIndex = 0;
+  final List<Meal> _favoriteMeals = [];
 
-  void _selectPage(_index) {
+  void showInfoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 8,
+        showCloseIcon: true,
+        duration: Duration(seconds: 4),
+        content: Text(message),
+      ),
+    );
+  }
+
+  // Toggles the favorite status of a meal
+  void toggleFavoriteMealStatus(Meal meal) {
+    final isExisting = _favoriteMeals.contains(meal);
+    if (isExisting == true) {
+      setState(() {
+        _favoriteMeals.remove(meal);
+      });
+      showInfoMessage("Removed from favorites!");
+    } else {
+      setState(() {
+        _favoriteMeals.add(meal);
+      });
+      showInfoMessage("Added to favorites!");
+    }
+  }
+
+  // Updates the selected page index
+  void _selectPage(index) {
     setState(() {
-      _selectedPageIndex = _index;
+      _selectedPageIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const CategoriesScreen();
+    // Determines the active page and title based on the selected index
+    Widget activePage = CategoriesScreen(
+      onToggleFavorite: toggleFavoriteMealStatus,
+    );
     var activePageTitle = "Categories";
 
     if (_selectedPageIndex == 1) {
-      activePage = const MealsScreen(meals: []);
+      activePage = MealsScreen(
+        meals: _favoriteMeals,
+        onToggleFavorite: toggleFavoriteMealStatus,
+      );
       activePageTitle = "Favorites";
     }
     return Scaffold(
