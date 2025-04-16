@@ -66,7 +66,7 @@ class _TabScreenState extends State<TabScreen> {
         meals: _favoriteMeals,
         onToggleFavorite: toggleFavoriteMealStatus,
       );
-      const activePageTitle = "Favorites";
+      // const activePageTitle = "Favorites";
     }
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
