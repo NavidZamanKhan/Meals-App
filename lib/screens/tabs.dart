@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/meals.dart';
+import 'package:meals_app/widgets/main_drawer.dart';
 
 class TabScreen extends StatefulWidget {
   const TabScreen({super.key});
@@ -23,8 +24,7 @@ class _TabScreenState extends State<TabScreen> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 8,
-        showCloseIcon: true,
-        duration: Duration(seconds: 4),
+        duration: const Duration(seconds: 4),
         content: Text(message),
       ),
     );
@@ -59,17 +59,19 @@ class _TabScreenState extends State<TabScreen> {
     Widget activePage = CategoriesScreen(
       onToggleFavorite: toggleFavoriteMealStatus,
     );
-    var activePageTitle = "Categories";
+    const activePageTitle = "Categories";
 
     if (_selectedPageIndex == 1) {
       activePage = MealsScreen(
         meals: _favoriteMeals,
         onToggleFavorite: toggleFavoriteMealStatus,
       );
-      activePageTitle = "Favorites";
+      const activePageTitle = "Favorites";
     }
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: Text(activePageTitle)),
+      drawer: const MainDrawer(),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,

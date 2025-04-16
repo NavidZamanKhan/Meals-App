@@ -17,6 +17,7 @@ class MealDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(
         title: Text(meal.title),
         actions: [

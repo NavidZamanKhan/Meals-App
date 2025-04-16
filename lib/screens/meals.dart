@@ -70,7 +70,11 @@ class MealsScreen extends StatelessWidget {
     if (title == null) {
       return content;
     } else {
-      return Scaffold(appBar: AppBar(title: Text(title!)), body: content);
+      return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        appBar: AppBar(title: Text(title!)),
+        body: content,
+      );
     }
   }
 }
