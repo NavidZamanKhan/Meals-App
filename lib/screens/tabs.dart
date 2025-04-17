@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
+import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
@@ -53,6 +54,19 @@ class _TabScreenState extends State<TabScreen> {
     });
   }
 
+  void _setScreen(String identifier) {
+    Navigator.pop(context);
+    if (identifier == "filters") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return const FiltersScreen();
+          },
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Determines the active page and title based on the selected index
@@ -71,7 +85,7 @@ class _TabScreenState extends State<TabScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: Text(activePageTitle)),
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(onSelectScreen: _setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
