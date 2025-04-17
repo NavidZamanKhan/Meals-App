@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/screens/tabs.dart';
+import 'package:meals_app/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
@@ -9,10 +11,22 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   var _glutenFreeFilterSet = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: const Text("Your Filters")),
+      drawer: MainDrawer(
+        onSelectScreen: (identifier) {
+          Navigator.pop(context);
+          if (identifier == "meals") {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (ctx) => TabScreen()));
+          }
+        },
+      ),
       body: Column(
         children: [
           Padding(
@@ -20,7 +34,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             child: Material(
               borderRadius: BorderRadius.circular(16),
               clipBehavior: Clip.antiAlias,
-              color: Theme.of(context).colorScheme.secondaryContainer,
+              color: Theme.of(context).colorScheme.surface,
               child: SwitchListTile(
                 title: Text(
                   "Gluten-free",
@@ -37,8 +51,26 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     fontSize: 16,
                   ),
                 ),
-                hoverColor: Theme.of(context).colorScheme.primary,
+
+                trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return Theme.of(context).colorScheme.onTertiaryContainer;
+                  } else {
+                    return Theme.of(context).colorScheme.onSecondaryContainer;
+                  }
+                }),
+
+                thumbColor: WidgetStateProperty.resolveWith((states) {
+                  if (states.contains(WidgetState.selected)) {
+                    return Theme.of(context).colorScheme.onTertiaryContainer;
+                  } else {
+                    return Theme.of(context).colorScheme.onSecondaryContainer;
+                  }
+                }),
+
+                inactiveTrackColor: Theme.of(context).colorScheme.surface,
                 activeColor: Theme.of(context).colorScheme.tertiary,
+
                 activeTrackColor:
                     Theme.of(context).colorScheme.primaryContainer,
                 contentPadding: const EdgeInsets.only(left: 16, right: 16),
