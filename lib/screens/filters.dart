@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/screens/tabs.dart';
-import 'package:meals_app/widgets/main_drawer.dart';
+import 'package:meals_app/widgets/switch.dart';
+
+enum Filters { glutenFree, lactoseFree, vegetarian, vegan }
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
@@ -11,79 +12,71 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   var _glutenFreeFilterSet = false;
+  var _lactoseFreeFilterSet = false;
+  var _vegetarianFilterSet = false;
+  var _veganFilterSet = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: const Text("Your Filters")),
-      drawer: MainDrawer(
-        onSelectScreen: (identifier) {
-          Navigator.pop(context);
-          if (identifier == "meals") {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (ctx) => TabScreen()));
-          }
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, dynamic result) {
+          Navigator.of(context).pop({
+            Filters.glutenFree: _glutenFreeFilterSet,
+            Filters.lactoseFree: _lactoseFreeFilterSet,
+            Filters.vegetarian: _vegetarianFilterSet,
+            Filters.vegan: _veganFilterSet,
+          });
         },
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Material(
-              borderRadius: BorderRadius.circular(16),
-              clipBehavior: Clip.antiAlias,
-              color: Theme.of(context).colorScheme.surface,
-              child: SwitchListTile(
-                title: Text(
-                  "Gluten-free",
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 20,
-                  ),
-                ),
-                subtitle: Text(
-                  "Only include gluten-free meals",
-                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    fontSize: 16,
-                  ),
-                ),
-
-                trackOutlineColor: WidgetStateProperty.resolveWith((states) {
-                  if (states.contains(WidgetState.selected)) {
-                    return Theme.of(context).colorScheme.onTertiaryContainer;
-                  } else {
-                    return Theme.of(context).colorScheme.onSecondaryContainer;
-                  }
-                }),
-
-                thumbColor: WidgetStateProperty.resolveWith((states) {
-                  if (states.contains(WidgetState.selected)) {
-                    return Theme.of(context).colorScheme.onTertiaryContainer;
-                  } else {
-                    return Theme.of(context).colorScheme.onSecondaryContainer;
-                  }
-                }),
-
-                inactiveTrackColor: Theme.of(context).colorScheme.surface,
-                activeColor: Theme.of(context).colorScheme.tertiary,
-
-                activeTrackColor:
-                    Theme.of(context).colorScheme.primaryContainer,
-                contentPadding: const EdgeInsets.only(left: 16, right: 16),
-                value: false,
-                onChanged: (isChecked) {
-                  setState(() {
-                    _glutenFreeFilterSet = isChecked;
-                  });
-                },
-              ),
+        child: Column(
+          children: [
+            SizedBox(height: 8),
+            CustomSwitch(
+              title: "Gluten-free",
+              subtitle: "Only include gluten free meals",
+              isChecked: _glutenFreeFilterSet,
+              onChanged: (glutenFree) {
+                setState(() {
+                  _glutenFreeFilterSet = glutenFree;
+                });
+              },
             ),
-          ),
-        ],
+            CustomSwitch(
+              title: "Lactose-free",
+              subtitle: "Only include lactose free meals",
+              isChecked: _lactoseFreeFilterSet,
+              onChanged: (lactose_free) {
+                setState(() {
+                  _lactoseFreeFilterSet = lactose_free;
+                });
+              },
+            ),
+            CustomSwitch(
+              title: "Vegetarian",
+              subtitle: "Only include Vegetarian meals",
+              isChecked: _vegetarianFilterSet,
+              onChanged: (vegetarian) {
+                setState(() {
+                  _vegetarianFilterSet = vegetarian;
+                });
+              },
+            ),
+            CustomSwitch(
+              title: "Vegan",
+              subtitle: "Only include Vegan meals",
+              isChecked: _veganFilterSet,
+              onChanged: (vegan) {
+                setState(() {
+                  _veganFilterSet = vegan;
+                });
+              },
+            ),
+            const Spacer(),
+          ],
+        ),
       ),
     );
   }
