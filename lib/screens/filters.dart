@@ -24,6 +24,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       body: PopScope(
         canPop: false,
         onPopInvokedWithResult: (bool didPop, dynamic result) {
+          if (didPop) return;
           Navigator.of(context).pop({
             Filters.glutenFree: _glutenFreeFilterSet,
             Filters.lactoseFree: _lactoseFreeFilterSet,
@@ -48,9 +49,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
               title: "Lactose-free",
               subtitle: "Only include lactose free meals",
               isChecked: _lactoseFreeFilterSet,
-              onChanged: (lactose_free) {
+              onChanged: (lactoseFree) {
                 setState(() {
-                  _lactoseFreeFilterSet = lactose_free;
+                  _lactoseFreeFilterSet = lactoseFree;
                 });
               },
             ),

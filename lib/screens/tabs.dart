@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
@@ -54,16 +56,18 @@ class _TabScreenState extends State<TabScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     Navigator.pop(context);
     if (identifier == "filters") {
-      Navigator.of(context).push(
+      final result = await Navigator.of(context).push<Map<Filters, bool>>(
         MaterialPageRoute(
           builder: (context) {
             return const FiltersScreen();
           },
         ),
       );
+
+      print(result);
     }
   }
 
