@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/dummy_data.dart';
-import 'package:meals_app/models/meal.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals_app/providers/favorites_provider.dart';
+import 'package:meals_app/providers/meals_provider.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
@@ -13,48 +14,16 @@ const kInitialFilters = {
   Filters.vegan: false,
 };
 
-class TabScreen extends StatefulWidget {
+class TabScreen extends ConsumerStatefulWidget {
   const TabScreen({super.key});
 
   @override
-  State<TabScreen> createState() => _TabScreenState();
+  ConsumerState<TabScreen> createState() => _TabScreenState();
 }
 
-class _TabScreenState extends State<TabScreen> {
+class _TabScreenState extends ConsumerState<TabScreen> {
   int _selectedPageIndex = 0;
-  final List<Meal> _favoriteMeals = [];
   Map<Filters, bool> _selectedFilters = kInitialFilters;
-
-  void showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(16),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        elevation: 8,
-        duration: const Duration(seconds: 4),
-        content: Text(message),
-      ),
-    );
-  }
-
-  // Toggles the favorite status of a meal
-  void toggleFavoriteMealStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
-    if (isExisting == true) {
-      setState(() {
-        _favoriteMeals.remove(meal);
-      });
-      showInfoMessage("Removed from favorites!");
-    } else {
-      setState(() {
-        _favoriteMeals.add(meal);
-      });
-      showInfoMessage("Added to favorites!");
-    }
-  }
 
   // Updates the selected page index
   void _selectPage(index) {
@@ -81,9 +50,10 @@ class _TabScreenState extends State<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final meals = ref.watch(mealProvider);
     // Filters the meals based on the selected filters
     final availableMeals =
-        dummyMeals.where((meal) {
+        meals.where((meal) {
           if (_selectedFilters[Filters.glutenFree]! && !meal.isGlutenFree) {
             return false;
           }
@@ -100,17 +70,12 @@ class _TabScreenState extends State<TabScreen> {
         }).toList();
 
     // Determines the active page and title based on the selected index
-    Widget activePage = CategoriesScreen(
-      onToggleFavorite: toggleFavoriteMealStatus,
-      availableMeals: availableMeals,
-    );
+    Widget activePage = CategoriesScreen(availableMeals: availableMeals);
     const activePageTitle = "Categories";
 
     if (_selectedPageIndex == 1) {
-      activePage = MealsScreen(
-        meals: _favoriteMeals,
-        onToggleFavorite: toggleFavoriteMealStatus,
-      );
+      final favoriteMeals = ref.watch(favoriteMealsProvider);
+      activePage = MealsScreen(meals: favoriteMeals);
       // const activePageTitle = "Favorites";
     }
     return Scaffold(
