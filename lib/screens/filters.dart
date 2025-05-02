@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals_app/providers/filters_provider.dart';
 import 'package:meals_app/widgets/switch.dart';
 
-enum Filters { glutenFree, lactoseFree, vegetarian, vegan }
-
-class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key, required this.currentFilters});
-
-  final Map<Filters, bool> currentFilters;
+class FiltersScreen extends ConsumerStatefulWidget {
+  const FiltersScreen({super.key});
 
   @override
-  State<FiltersScreen> createState() => _FiltersScreenState();
+  ConsumerState<FiltersScreen> createState() => _FiltersScreenState();
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
+class _FiltersScreenState extends ConsumerState<FiltersScreen> {
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
@@ -21,10 +19,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   void initState() {
     super.initState();
-    _glutenFreeFilterSet = widget.currentFilters[Filters.glutenFree]!;
-    _lactoseFreeFilterSet = widget.currentFilters[Filters.lactoseFree]!;
-    _vegetarianFilterSet = widget.currentFilters[Filters.vegetarian]!;
-    _veganFilterSet = widget.currentFilters[Filters.vegan]!;
+    // Initialize the filter sets with the current filters
+    final activeFilters = ref.read(filtersProvider);
+    _glutenFreeFilterSet = activeFilters[Filters.glutenFree]!;
+    _lactoseFreeFilterSet = activeFilters[Filters.lactoseFree]!;
+    _vegetarianFilterSet = activeFilters[Filters.vegetarian]!;
+    _veganFilterSet = activeFilters[Filters.vegan]!;
   }
 
   @override
@@ -33,15 +33,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: const Text("Your Filters")),
       body: PopScope(
-        canPop: false,
+        canPop: true,
         onPopInvokedWithResult: (bool didPop, dynamic result) {
-          if (didPop) return;
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setFilters({
             Filters.glutenFree: _glutenFreeFilterSet,
             Filters.lactoseFree: _lactoseFreeFilterSet,
             Filters.vegetarian: _vegetarianFilterSet,
             Filters.vegan: _veganFilterSet,
           });
+          if (didPop) return;
         },
         child: Column(
           children: [
