@@ -8,6 +8,8 @@ class FiltersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final activeFilters = ref.watch(filtersProvider);
+    final filtersNotifier = ref.read(filtersProvider.notifier);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: const Text("Your Filters")),
@@ -17,41 +19,33 @@ class FiltersScreen extends ConsumerWidget {
           CustomSwitch(
             title: "Gluten-free",
             subtitle: "Only include gluten free meals",
-            isChecked: ref.watch(filtersProvider)[Filters.glutenFree] ?? false,
+            isChecked: activeFilters[Filters.glutenFree] ?? false,
             onChanged: (glutenFree) {
-              ref
-                  .read(filtersProvider.notifier)
-                  .updateFilter(Filters.glutenFree, glutenFree);
+              filtersNotifier.updateFilter(Filters.glutenFree, glutenFree);
             },
           ),
           CustomSwitch(
             title: "Lactose-free",
             subtitle: "Only include lactose free meals",
-            isChecked: ref.watch(filtersProvider)[Filters.lactoseFree] ?? false,
+            isChecked: activeFilters[Filters.lactoseFree] ?? false,
             onChanged: (lactoseFree) {
-              ref
-                  .read(filtersProvider.notifier)
-                  .updateFilter(Filters.lactoseFree, lactoseFree);
+              filtersNotifier.updateFilter(Filters.lactoseFree, lactoseFree);
             },
           ),
           CustomSwitch(
             title: "Vegetarian",
             subtitle: "Only include Vegetarian meals",
-            isChecked: ref.watch(filtersProvider)[Filters.vegetarian] ?? false,
+            isChecked: activeFilters[Filters.vegetarian] ?? false,
             onChanged: (vegetarian) {
-              ref
-                  .read(filtersProvider.notifier)
-                  .updateFilter(Filters.vegetarian, vegetarian);
+              filtersNotifier.updateFilter(Filters.vegetarian, vegetarian);
             },
           ),
           CustomSwitch(
             title: "Vegan",
             subtitle: "Only include Vegan meals",
-            isChecked: ref.watch(filtersProvider)[Filters.vegan] ?? false,
+            isChecked: activeFilters[Filters.vegan] ?? false,
             onChanged: (vegan) {
-              ref
-                  .read(filtersProvider.notifier)
-                  .updateFilter(Filters.vegan, vegan);
+              filtersNotifier.updateFilter(Filters.vegan, vegan);
             },
           ),
           const Spacer(),
