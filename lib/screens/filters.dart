@@ -17,7 +17,7 @@ class FiltersScreen extends ConsumerWidget {
           CustomSwitch(
             title: "Gluten-free",
             subtitle: "Only include gluten free meals",
-            isChecked: ref.watch(filtersProvider)[Filters.glutenFree]!,
+            isChecked: ref.watch(filtersProvider)[Filters.glutenFree] ?? false,
             onChanged: (glutenFree) {
               ref
                   .read(filtersProvider.notifier)
@@ -27,7 +27,7 @@ class FiltersScreen extends ConsumerWidget {
           CustomSwitch(
             title: "Lactose-free",
             subtitle: "Only include lactose free meals",
-            isChecked: ref.watch(filtersProvider)[Filters.lactoseFree]!,
+            isChecked: ref.watch(filtersProvider)[Filters.lactoseFree] ?? false,
             onChanged: (lactoseFree) {
               ref
                   .read(filtersProvider.notifier)
@@ -37,7 +37,7 @@ class FiltersScreen extends ConsumerWidget {
           CustomSwitch(
             title: "Vegetarian",
             subtitle: "Only include Vegetarian meals",
-            isChecked: ref.watch(filtersProvider)[Filters.vegetarian]!,
+            isChecked: ref.watch(filtersProvider)[Filters.vegetarian] ?? false,
             onChanged: (vegetarian) {
               ref
                   .read(filtersProvider.notifier)
@@ -47,7 +47,7 @@ class FiltersScreen extends ConsumerWidget {
           CustomSwitch(
             title: "Vegan",
             subtitle: "Only include Vegan meals",
-            isChecked: ref.watch(filtersProvider)[Filters.vegan]!,
+            isChecked: ref.watch(filtersProvider)[Filters.vegan] ?? false,
             onChanged: (vegan) {
               ref
                   .read(filtersProvider.notifier)
