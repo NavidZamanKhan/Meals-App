@@ -16,7 +16,8 @@ class FiltersNotifier extends StateNotifier<Map<Filters, bool>> {
 
   void setFilters(Map<Filters, bool> chosenFilters) {
     state = chosenFilters;
-  }}
+  }
+}
 
 final filtersProvider =
     StateNotifierProvider<FiltersNotifier, Map<Filters, bool>>((ref) {
