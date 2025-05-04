@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/providers/favorites_provider.dart';
-import 'package:meals_app/providers/meals_provider.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
@@ -15,16 +14,18 @@ const kInitialFilters = {
   Filters.vegan: false,
 };
 
+///
+///
 class TabScreen extends ConsumerStatefulWidget {
   const TabScreen({super.key});
-
   @override
   ConsumerState<TabScreen> createState() => _TabScreenState();
 }
 
+///
+///
 class _TabScreenState extends ConsumerState<TabScreen> {
   int _selectedPageIndex = 0;
-
   // Updates the selected page index
   void _selectPage(index) {
     setState(() {
@@ -45,37 +46,28 @@ class _TabScreenState extends ConsumerState<TabScreen> {
     }
   }
 
+  ///
+  ///
+  ///
+  ///
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealProvider);
-    final activeFilters = ref.watch(filtersProvider);
     // Filters the meals based on the selected filters
-    final availableMeals =
-        meals.where((meal) {
-          if (activeFilters[Filters.glutenFree]! && !meal.isGlutenFree) {
-            return false;
-          }
-          if (activeFilters[Filters.lactoseFree]! && !meal.isLactoseFree) {
-            return false;
-          }
-          if (activeFilters[Filters.vegetarian]! && !meal.isVegetarian) {
-            return false;
-          }
-          if (activeFilters[Filters.vegan]! && !meal.isVegan) {
-            return false;
-          }
-          return true;
-        }).toList();
+    final availableMeals = ref.watch(filteredMealsProvider);
 
     // Determines the active page and title based on the selected index
     Widget activePage = CategoriesScreen(availableMeals: availableMeals);
-    const activePageTitle = "Categories";
+    var activePageTitle = "Categories";
 
     if (_selectedPageIndex == 1) {
       final favoriteMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(meals: favoriteMeals);
-      // const activePageTitle = "Favorites";
     }
+
+    ///
+    ///
+    ///
+    ///
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(title: Text(activePageTitle)),
