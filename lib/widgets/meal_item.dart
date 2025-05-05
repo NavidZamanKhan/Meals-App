@@ -29,60 +29,72 @@ class MealItem extends StatelessWidget {
       child: InkWell(
         onTap: () => onSelectMeal(meal),
         borderRadius: const BorderRadius.all(Radius.circular(16)),
-        child: Stack(
-          children: [
-            FadeInImage(
-              fadeInDuration: const Duration(milliseconds: 400),
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              child: Container(
-                color: Colors.black54,
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    Text(
-                      meal.title,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+        child: Hero(
+          tag: meal.id,
+          child: Material(
+            color: Colors.transparent,
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadiusDirectional.circular(16),
+                  child: FadeInImage(
+                    fadeInDuration: const Duration(milliseconds: 400),
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: NetworkImage(meal.imageUrl),
+                    fit: BoxFit.cover,
+                    height: 200,
+                    width: double.infinity,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Container(
+                    color: Colors.black54,
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
                       children: [
-                        MealItemTrait(
-                          icon: Icons.schedule,
-                          label: "${meal.duration} min",
+                        Text(
+                          meal.title,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(width: 32),
-                        MealItemTrait(icon: Icons.work, label: complexityText),
-                        const SizedBox(width: 32),
-                        MealItemTrait(
-                          icon: Icons.attach_money_rounded,
-                          label: affordabilityText,
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MealItemTrait(
+                              icon: Icons.schedule,
+                              label: "${meal.duration} min",
+                            ),
+                            const SizedBox(width: 32),
+                            MealItemTrait(
+                              icon: Icons.work,
+                              label: complexityText,
+                            ),
+                            const SizedBox(width: 32),
+                            MealItemTrait(
+                              icon: Icons.attach_money_rounded,
+                              label: affordabilityText,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

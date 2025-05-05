@@ -47,20 +47,67 @@ class MealDetailsScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(!isFavorite ? Icons.star_border : Icons.star),
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              transitionBuilder: (child, Animation) {
+                return RotationTransition(
+                  turns: Tween<double>(begin: 0.8, end: 1).animate(Animation),
+                  child: child,
+                );
+              },
+              child: Icon(
+                !isFavorite ? Icons.star_border : Icons.star,
+                key: ValueKey(isFavorite),
+              ),
+            ),
           ),
         ],
       ),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
-            child: FadeInImage(
-              fadeInDuration: const Duration(milliseconds: 400),
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
+            child: Hero(
+              tag: meal.id,
+              child: Material(
+                color: Colors.transparent,
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(0),
+                      child: FadeInImage(
+                        fadeInDuration: const Duration(milliseconds: 400),
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: NetworkImage(meal.imageUrl),
+                        height: 200,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      left: 0,
+                      child: Container(
+                        color: Colors.black54,
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          meal.title,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           SliverFillRemaining(

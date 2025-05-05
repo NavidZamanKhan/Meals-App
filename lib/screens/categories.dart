@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/meals.dart';
@@ -83,7 +82,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
           ).animate(
             CurvedAnimation(
               parent: _animationController,
-              curve: Curves.easeInOut,
+              curve: Curves.elasticInOut,
             ),
           ),
           child: child,
