@@ -1,5 +1,3 @@
-Here's the exact same content converted to proper markdown format:
-
 # Meals App
 
 A Flutter application that helps users discover, filter, and save their favorite meals. The app provides a comprehensive meal catalog with detailed recipes, ingredients, and cooking instructions.
